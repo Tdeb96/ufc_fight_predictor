@@ -1,15 +1,15 @@
-version: '3.8'
+version: '3.3'
 services:
-  db:
-    image: postgres:14.2-alpine
-    container_name: "my_postgres"
+  timescale:
+    image: timescale/timescaledb-postgis:latest-pg13
+    container_name: "timescale"
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
       - '5432:5432'
-    volumes: 
+    volumes:
       - db:/var/lib/postgresql/data
   pgadmin:
     container_name: pgadmin4_container
@@ -18,7 +18,10 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
-      
+    volumes:
+      - type: bind
+        source: ./config/servers.json
+        target: /pgadmin4/servers.json
     ports:
       - "5050:80"
 volumes:

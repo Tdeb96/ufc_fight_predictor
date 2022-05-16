@@ -1,12 +1,12 @@
 from sqlalchemy.orm import sessionmaker
-from .models import Bouts, db_connect, create_bouts_table
+from .models import Fighters, db_connect, create_fighters_table
 
-class BoutScraperPipeline:
-    """boutScraper pipeline for storing scraped items in the database"""
+class FighterScraperPipeline:
+    """fighterScraper pipeline for storing scraped items in the database"""
     def __init__(self):
         """
         Initializes database connection and sessionmaker.
-        Creates bouts table.
+        Creates fighters table.
         """
         engine = db_connect()
 
@@ -14,19 +14,19 @@ class BoutScraperPipeline:
         with engine.connect() as conn:
             conn.execute('CREATE SCHEMA IF NOT EXISTS ufc')
 
-        # Create bouts table
-        create_bouts_table(engine)
+        # Create fighters table
+        create_fighters_table(engine)
         
         self.Session = sessionmaker(bind=engine)
     
     def process_item(self, item, spider):
-            """Save bouts in the database.
+            """Save fighters in the database.
 
             This method is called for every item pipeline component.
 
             """
             session = self.Session()
-            deal = Bouts(**item)
+            deal = Fighters(**item)
 
             try:
                 session.add(deal)

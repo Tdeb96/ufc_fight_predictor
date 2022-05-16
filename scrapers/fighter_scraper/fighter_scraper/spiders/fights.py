@@ -6,7 +6,7 @@ import scrapy
 from scrapy import Selector
 from scrapy.crawler import CrawlerProcess
 
-from fight_scraper.items import FightScraperItem
+from fighter_scraper.items import FightScraperItem
 
 
 class Fighters(scrapy.Spider):
