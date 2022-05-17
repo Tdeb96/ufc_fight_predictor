@@ -1,4 +1,10 @@
 version: '3.3'
+
+networks:
+  default:
+    external:
+      name: ufc
+
 services:
   timescale:
     image: timescale/timescaledb-postgis:latest-pg13

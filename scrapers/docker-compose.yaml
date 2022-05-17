@@ -1,0 +1,16 @@
+version: '3.3'
+
+networks:
+  default:
+    external:
+      name: ufc
+
+services:
+  bout_scraper:
+    build: ./bout_scraper
+    env_file:
+      - ./../.env
+  fighter_scraper:
+    build: ./fighter_scraper
+    env_file:
+      - ./../.env
