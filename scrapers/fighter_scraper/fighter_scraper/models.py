@@ -19,7 +19,7 @@ def create_fighters_table(engine):
 
 class Fighters(DeclarativeBase):
     """Sqlalchemy fighter model"""
-    __tablename__ = "fighter"
+    __tablename__ = "fighters"
 
     id = Column(Integer, primary_key = True)
     fighter_name = Column("fighter_name", String)
