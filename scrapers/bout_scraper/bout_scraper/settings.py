@@ -11,7 +11,7 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 6
 
 DATABASE = {
     'drivername': 'postgresql',
-    'host': 'localhost',
+    'host': 'timescale',
     'port': '5432',
     'username': os.environ.get("POSTGRES_USERNAME"),
     'password': os.environ.get("POSTGRES_PASSWORD"),

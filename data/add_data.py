@@ -9,7 +9,7 @@ def get_db_engine(
     username: str,
     password: str,
     protocol: str = "postgresql",
-    server: str = "localhost",
+    server: str = "timescale",
     port: int = 5432,
     dbname: str = "ufc",
 ) -> Engine:
@@ -24,5 +24,6 @@ fighters = pd.read_csv('data/fighters.csv', quoting=csv.QUOTE_NONE)
 
 logging.info('Uploading bouts and fighters csv files to postgres server')
 with engine.connect() as conn:
+    conn.execute("CREATE SCHEMA IF NOT EXISTS ufc")
     bouts.to_sql('bouts', conn, 'ufc', if_exists='replace')
     fighters.to_sql('bouts', conn, 'ufc', if_exists='replace')
