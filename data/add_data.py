@@ -26,4 +26,4 @@ logging.info('Uploading bouts and fighters csv files to postgres server')
 with engine.connect() as conn:
     conn.execute("CREATE SCHEMA IF NOT EXISTS ufc")
     bouts.to_sql('bouts', conn, 'ufc', if_exists='replace')
-    fighters.to_sql('bouts', conn, 'ufc', if_exists='replace')
+    fighters.to_sql('fighters', conn, 'ufc', if_exists='replace')
