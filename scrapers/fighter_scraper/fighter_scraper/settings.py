@@ -1,8 +1,8 @@
 import os
 
-BOT_NAME = 'bout_scraper'
+BOT_NAME = 'fighter_scraper'
 
-SPIDER_MODULES = ['bout_scraper.spiders']
+SPIDER_MODULES = ['fighter_scraper.spiders']
 
 DOWNLOAD_DELAY = 1.5
 AUTOTHROTTLE_ENABLED = True
@@ -22,6 +22,6 @@ DATABASE = {
 ROBOTSTXT_OBEY = True
 
 ITEM_PIPELINES = {
-    'bout_scraper.pipelines.BoutScraperPipeline': 400,
+    'fighter_scraper.pipelines.FighterScraperPipeline': 400,
 }
 
