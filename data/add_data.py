@@ -20,7 +20,7 @@ def get_db_engine(
 
 engine = get_db_engine(os.environ.get("POSTGRES_USERNAME"), os.environ.get("POSTGRES_PASSWORD"))
 bouts = pd.read_csv('data/bouts.csv')
-fighters = pd.read_csv('data/fighters.csv', quoting=csv.QUOTE_NONE)
+fighters = pd.read_csv('data/fighters.csv')
 
 logging.info('Uploading bouts and fighters csv files to postgres server')
 with engine.connect() as conn:
