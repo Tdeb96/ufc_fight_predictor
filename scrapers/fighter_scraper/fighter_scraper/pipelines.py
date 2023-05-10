@@ -1,8 +1,11 @@
 from sqlalchemy.orm import sessionmaker
-from .models import Fighters, db_connect, create_fighters_table
+
+from .models import Fighters, create_fighters_table, db_connect
+
 
 class FighterScraperPipeline:
     """fighterScraper pipeline for storing scraped items in the database"""
+
     def __init__(self):
         """
         Initializes database connection and sessionmaker.
@@ -12,29 +15,29 @@ class FighterScraperPipeline:
 
         # Create ufc schema
         with engine.connect() as conn:
-            conn.execute('CREATE SCHEMA IF NOT EXISTS ufc')
+            conn.execute("CREATE SCHEMA IF NOT EXISTS ufc")
 
         # Create fighters table
         create_fighters_table(engine)
-        
+
         self.Session = sessionmaker(bind=engine)
-    
+
     def process_item(self, item, spider):
-            """Save fighters in the database.
+        """Save fighters in the database.
 
-            This method is called for every item pipeline component.
+        This method is called for every item pipeline component.
 
-            """
-            session = self.Session()
-            deal = Fighters(**item)
+        """
+        session = self.Session()
+        deal = Fighters(**item)
 
-            try:
-                session.add(deal)
-                session.commit()
-            except:
-                session.rollback()
-                raise
-            finally:
-                session.close()
+        try:
+            session.add(deal)
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
 
-            return item
+        return item

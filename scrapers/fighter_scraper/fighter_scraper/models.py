@@ -1,27 +1,33 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Float, Integer, String, create_engine
 from sqlalchemy.engine.url import URL
+from sqlalchemy.ext.declarative import declarative_base
 
 from .settings import DATABASE
 
 DeclarativeBase = declarative_base()
+
 
 def db_connect():
     """
     Performs database connection using database settings from settings.py.
     Returns sqlalchemy engine instance
     """
-    return create_engine(URL(**DATABASE), connect_args={'options': '-csearch_path={}'.format('ufc')})
+    return create_engine(
+        URL(**DATABASE), connect_args={"options": "-csearch_path={}".format("ufc")}
+    )
+
 
 def create_fighters_table(engine):
     """"""
     DeclarativeBase.metadata.create_all(engine)
 
+
 class Fighters(DeclarativeBase):
     """Sqlalchemy fighter model"""
+
     __tablename__ = "fighters"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key=True)
     fighter_name = Column("fighter_name", String)
     fighter_record = Column("fighter_record", String)
     height = Column("height", String)

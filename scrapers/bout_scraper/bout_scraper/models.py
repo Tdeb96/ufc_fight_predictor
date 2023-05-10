@@ -1,27 +1,33 @@
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.engine.url import URL
+from sqlalchemy.ext.declarative import declarative_base
 
 from .settings import DATABASE
 
 DeclarativeBase = declarative_base()
+
 
 def db_connect():
     """
     Performs database connection using database settings from settings.py.
     Returns sqlalchemy engine instance
     """
-    return create_engine(URL(**DATABASE), connect_args={'options': '-csearch_path={}'.format('ufc')})
+    return create_engine(
+        URL(**DATABASE), connect_args={"options": "-csearch_path={}".format("ufc")}
+    )
+
 
 def create_bouts_table(engine):
     """"""
     DeclarativeBase.metadata.create_all(engine)
 
+
 class Bouts(DeclarativeBase):
     """Sqlalchemy bouts model"""
+
     __tablename__ = "bouts"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key=True)
     event_name = Column("event_name", String)
     event_date = Column("event_date", String)
     win = Column("win", String)

@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
 
+
 def get_db_engine(
     username: str,
     password: str,
@@ -10,6 +11,11 @@ def get_db_engine(
     dbname: str = "ufc",
 ) -> Engine:
     engine = create_engine(
-        f"{protocol}://" f"{username}:" f"{password}@" f"{server}:" f"{port}/" f"{dbname}"
+        f"{protocol}://"
+        f"{username}:"
+        f"{password}@"
+        f"{server}:"
+        f"{port}/"
+        f"{dbname}"
     )
     return engine

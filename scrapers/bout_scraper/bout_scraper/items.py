@@ -1,5 +1,4 @@
-
-from scrapy.item import Item, Field
+from scrapy.item import Field, Item
 
 
 class BoutScraperItem(Item):
@@ -58,4 +57,3 @@ class BoutScraperItem(Item):
     sig_ground_landed_2 = Field()
     sig_ground_attempted_1 = Field()
     sig_ground_attempted_2 = Field()
-
