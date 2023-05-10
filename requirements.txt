@@ -1,6 +1,0 @@
-pandas
-sqlalchemy
-plotly
-numpy
-ipykernel
-psycopg2-binary

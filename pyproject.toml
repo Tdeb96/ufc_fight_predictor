@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ufc-fight-predictor"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "ufc_fight_predictor"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^2.0.1"
+sqlalchemy = "^1.4.43"
+plotly = "^5.14.1"
+numpy = "^1.24.3"
+ipykernel = "^6.23.0"
+psycopg2-binary = "^2.9.6"
+black = "^23.3.0"
+scrapy = "^2.9.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

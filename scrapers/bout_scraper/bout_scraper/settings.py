@@ -1,5 +1,3 @@
-import os
-
 BOT_NAME = 'bout_scraper'
 
 SPIDER_MODULES = ['bout_scraper.spiders']
@@ -13,8 +11,8 @@ DATABASE = {
     'drivername': 'postgresql',
     'host': 'timescale',
     'port': '5432',
-    'username': os.environ.get("POSTGRES_USERNAME"),
-    'password': os.environ.get("POSTGRES_PASSWORD"),
+    'username': 'postgres',
+    'password': 'postgres',
     'database': 'ufc'
 }
 

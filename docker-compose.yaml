@@ -1,9 +1,9 @@
-version: '3.3'
+version: '3.9'
 
 networks:
   default:
-    external:
-      name: ufc
+    name: ufc
+    external: true
 
 services:
   timescale:
@@ -14,10 +14,16 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=ufc
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - '5432:5432'
     volumes:
       - db:/var/lib/postgresql/data
+
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
@@ -27,10 +33,19 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     volumes:
       - type: bind
-        source: ./config/servers.json
+        source: ./ufc_fight_predictor/backend/config/servers.json
         target: /pgadmin4/servers.json
     ports:
       - "5050:80"
+
+  add_data:
+    build: 
+      context: ./
+      dockerfile: ./ufc_fight_predictor/data/Dockerfile
+    depends_on:
+      timescale:
+        condition: service_healthy
+
 volumes:
   db:
     driver: local

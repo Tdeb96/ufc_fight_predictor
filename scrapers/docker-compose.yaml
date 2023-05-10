@@ -1,16 +1,15 @@
-version: '3.3'
+version: '3.9'
 
 networks:
   default:
-    external:
-      name: ufc
+    name: ufc
+    external: true
 
 services:
   bout_scraper:
     build: ./bout_scraper
-    env_file:
-      - ./../.env
   fighter_scraper:
+    depends_on:
+      bout_scraper:
+        condition: service_started
     build: ./fighter_scraper
-    env_file:
-      - ./../.env

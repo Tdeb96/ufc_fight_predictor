@@ -12,6 +12,7 @@ class BoutScraperPipeline:
 
         # Create ufc schema
         with engine.connect() as conn:
+            conn.execute('DROP SCHEMA IF EXISTS ufc CASCADE')
             conn.execute('CREATE SCHEMA IF NOT EXISTS ufc')
 
         # Create bouts table
