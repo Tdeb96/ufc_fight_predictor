@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
 
-
 def get_db_engine(
     username: str,
     password: str,
