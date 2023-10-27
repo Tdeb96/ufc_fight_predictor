@@ -45,6 +45,26 @@ services:
     depends_on:
       timescale:
         condition: service_healthy
+    
+  api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      add_data:
+        condition: service_completed_successfully
+
+  web_app:
+    build:
+      context: .
+      dockerfile: ./web_app/Dockerfile
+    ports:
+      - "8501:8501"
+    depends_on:
+      add_data:
+        condition: service_completed_successfully
 
 volumes:
   db:

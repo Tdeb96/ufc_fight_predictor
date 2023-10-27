@@ -1,25 +1,30 @@
 from __future__ import absolute_import
+
 import logging
+
+import pandas as pd
 import scrapy
 from bout_scraper.items import BoutScraperItem
 from scrapy.crawler import CrawlerProcess
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
-import pandas as pd
 
 
 def get_db_engine(
     username: str,
     password: str,
     protocol: str = "postgresql",
-    server: str = "localhost",
+    server: str = "timescale",
     port: int = 5432,
     dbname: str = "ufc",
 ) -> Engine:
-
     engine = create_engine(
-        f"{protocol}://" f"{username}:" f"{password}@" f"{server}:" f"{port}/" f"{dbname}",
-        isolation_level="AUTOCOMMIT",
+        f"{protocol}://"
+        f"{username}:"
+        f"{password}@"
+        f"{server}:"
+        f"{port}/"
+        f"{dbname}"
     )
     return engine
 
@@ -28,9 +33,9 @@ def get_event_url(engine: Engine) -> pd.DataFrame:
     df = pd.read_sql("SELECT event_url FROM ufc.bouts", engine)
     return df
 
+
 class Bouts(scrapy.Spider):
     name = "boutSpider"
-
 
     def start_requests(self):
         start_urls = ["http://ufcstats.com/statistics/events/completed?page=all"]
@@ -44,9 +49,14 @@ class Bouts(scrapy.Spider):
             "//td[@class='b-statistics__table-col']//a/@href"
         ).extract()
         links = [link for link in links if link not in previously_scraped_urls.values]
+        if len(links) == 0:
+            logging.info("No new events to scrape")
+            return
         for link in links:
             logging.info(f"Scraping {link}")
-            yield scrapy.Request(link, callback=self.parse_bouts, cb_kwargs=dict(event_url = link))
+            yield scrapy.Request(
+                link, callback=self.parse_bouts, cb_kwargs=dict(event_url=link)
+            )
 
     def parse_bouts(self, response, event_url):
         bouts = response.xpath(
