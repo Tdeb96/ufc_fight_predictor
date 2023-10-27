@@ -1,0 +1,6 @@
+streamlit
+requests
+numpy
+sqlalchemy==1.4.43
+pandas
+psycopg2-binary

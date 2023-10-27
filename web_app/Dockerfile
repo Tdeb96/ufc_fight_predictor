@@ -1,0 +1,22 @@
+# Use an official Python runtime as a base image
+# Use an official Python runtime as a parent image
+FROM python:3.8
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY ./web_app /app/web_app
+COPY ./ufc_fight_predictor /app/ufc_fight_predictor
+
+# Install any needed packages specified in requirements_web.txt
+RUN pip install --no-cache-dir -r /app/web_app/requirements_web.txt
+
+# Set python path to be able to use utils module
+ENV PYTHONPATH "${PYTHONPATH}:/app/ufc_fight_predictor"
+
+# Make port 8501 available to the world outside this container
+EXPOSE 8501
+
+# Run streamlit_app.py when the container launches
+CMD ["streamlit", "run", "/app/web_app/streamlit_app.py"]

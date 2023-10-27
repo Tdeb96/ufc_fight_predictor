@@ -1,0 +1,8 @@
+fastapi==0.70.0
+uvicorn==0.15.0
+numpy
+sqlalchemy==1.4.43
+pandas
+psycopg2-binary
+xgboost
+scikit-learn
