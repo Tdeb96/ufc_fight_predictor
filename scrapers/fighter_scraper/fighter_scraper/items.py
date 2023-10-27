@@ -4,6 +4,7 @@ from scrapy.item import Field, Item
 class FightScraperItem(Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    fighter_url = Field()
     fighter_name = Field()
     fighter_record = Field()
     height = Field()

@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "ufc_fight_predictor"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.11"
 pandas = "^2.0.1"
 sqlalchemy = "^1.4.43"
 plotly = "^5.14.1"
@@ -16,7 +16,14 @@ ipykernel = "^6.23.0"
 psycopg2-binary = "^2.9.6"
 black = "^23.3.0"
 scrapy = "^2.9.0"
+mlflow = "^2.7.1"
+xgboost = "^2.0.0"
+shap = "^0.43.0"
+tensorflow = "^2.14.0"
 
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.25.2"
 
 [build-system]
 requires = ["poetry-core"]

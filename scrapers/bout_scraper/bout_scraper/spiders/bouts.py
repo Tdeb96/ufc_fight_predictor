@@ -1,12 +1,36 @@
 from __future__ import absolute_import
-
+import logging
 import scrapy
 from bout_scraper.items import BoutScraperItem
 from scrapy.crawler import CrawlerProcess
+from sqlalchemy import create_engine
+from sqlalchemy.engine.base import Engine
+import pandas as pd
 
+
+def get_db_engine(
+    username: str,
+    password: str,
+    protocol: str = "postgresql",
+    server: str = "localhost",
+    port: int = 5432,
+    dbname: str = "ufc",
+) -> Engine:
+
+    engine = create_engine(
+        f"{protocol}://" f"{username}:" f"{password}@" f"{server}:" f"{port}/" f"{dbname}",
+        isolation_level="AUTOCOMMIT",
+    )
+    return engine
+
+
+def get_event_url(engine: Engine) -> pd.DataFrame:
+    df = pd.read_sql("SELECT event_url FROM ufc.bouts", engine)
+    return df
 
 class Bouts(scrapy.Spider):
     name = "boutSpider"
+
 
     def start_requests(self):
         start_urls = ["http://ufcstats.com/statistics/events/completed?page=all"]
@@ -15,13 +39,16 @@ class Bouts(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
+        previously_scraped_urls = get_event_url(get_db_engine("postgres", "postgres"))
         links = response.xpath(
             "//td[@class='b-statistics__table-col']//a/@href"
         ).extract()
+        links = [link for link in links if link not in previously_scraped_urls.values]
         for link in links:
-            yield scrapy.Request(link, callback=self.parse_bouts)
+            logging.info(f"Scraping {link}")
+            yield scrapy.Request(link, callback=self.parse_bouts, cb_kwargs=dict(event_url = link))
 
-    def parse_bouts(self, response):
+    def parse_bouts(self, response, event_url):
         bouts = response.xpath(
             "//tr[@class='b-fight-details__table-row b-fight-details__table-row__hover js-fight-details-click']/@data-link"
         ).extract()
@@ -32,12 +59,12 @@ class Bouts(scrapy.Spider):
             yield scrapy.Request(
                 bout,
                 callback=self.parse_bouts_advanced,
-                cb_kwargs=dict(event_date=event_date),
+                cb_kwargs=dict(event_url=event_url, event_date=event_date),
             )
 
-    def parse_bouts_advanced(self, response, event_date):
+    def parse_bouts_advanced(self, response, event_url, event_date):
         bout_item = BoutScraperItem()
-
+        bout_item["event_url"] = event_url
         bout_item["event_name"] = (
             response.xpath('//h2[@class="b-content__title"]//a/text()')
             .extract()[0]

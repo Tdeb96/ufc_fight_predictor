@@ -28,6 +28,7 @@ class Fighters(DeclarativeBase):
     __tablename__ = "fighters"
 
     id = Column(Integer, primary_key=True)
+    fighter_url = Column("fighter_url", String)
     fighter_name = Column("fighter_name", String)
     fighter_record = Column("fighter_record", String)
     height = Column("height", String)

@@ -1,12 +1,32 @@
 from __future__ import absolute_import
-
 import string
-
 import scrapy
 from fighter_scraper.items import FightScraperItem
 from scrapy import Selector
 from scrapy.crawler import CrawlerProcess
+from sqlalchemy import create_engine
+from sqlalchemy.engine.base import Engine
+import pandas as pd
 
+def get_db_engine(
+    username: str,
+    password: str,
+    protocol: str = "postgresql",
+    server: str = "localhost",
+    port: int = 5432,
+    dbname: str = "ufc",
+) -> Engine:
+
+    engine = create_engine(
+        f"{protocol}://" f"{username}:" f"{password}@" f"{server}:" f"{port}/" f"{dbname}",
+        isolation_level="AUTOCOMMIT",
+    )
+    return engine
+
+
+def get_fighter_url(engine: Engine) -> pd.DataFrame:
+    df = pd.read_sql("SELECT fighter_url FROM ufc.fighters", engine)
+    return df
 
 class Fighters(scrapy.Spider):
     name = "fighterSpider"
@@ -20,15 +40,18 @@ class Fighters(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
+        previously_scraped_fighters = get_fighter_url(get_db_engine("postgres", "postgres"))
         links = response.xpath(
             "//td[@class ='b-statistics__table-col']//@href"
         ).extract()
+        links = [link for link in links if link not in previously_scraped_fighters.values]
         for link in links:
-            yield scrapy.Request(link, callback=self.parse_fighter)
+            yield scrapy.Request(link, callback=self.parse_fighter, cb_kwargs=dict(fighter_url=link))
 
-    def parse_fighter(self, response):
+    def parse_fighter(self, response, fighter_url):
         sel = Selector(response)
         fighter_item = FightScraperItem()
+        fighter_item['fighter_url'] = fighter_url
         fighter_item["fighter_name"] = (
             sel.xpath("//span[@class='b-content__title-highlight']//text()")
             .extract()[0]

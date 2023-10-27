@@ -28,6 +28,7 @@ class Bouts(DeclarativeBase):
     __tablename__ = "bouts"
 
     id = Column(Integer, primary_key=True)
+    event_url = Column("event_url", String)
     event_name = Column("event_name", String)
     event_date = Column("event_date", String)
     win = Column("win", String)
