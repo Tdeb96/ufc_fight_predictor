@@ -1,8 +1,9 @@
 import json
 
-from data_processing import DataProcessor
 from fastapi import FastAPI
 from xgboost import XGBClassifier
+
+from data_processing import DataProcessor
 
 app = FastAPI()
 data_processor = DataProcessor(username="postgres", password="postgres")
