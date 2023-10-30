@@ -1,5 +1,6 @@
 from scrapy.item import Field, Item
 
+
 class BoutScraperItem(Item):
     event_url = Field()
     event_name = Field()
