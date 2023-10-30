@@ -2,6 +2,7 @@ import json
 
 import requests
 import streamlit as st
+
 from data_processing import DataProcessor
 
 # API URL
