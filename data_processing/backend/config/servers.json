@@ -1,0 +1,13 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "ufc_data",
+            "Group": "ufc",
+            "Port": 5432,
+            "Username": "postgres",
+            "Host": "timescale",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+        }
+    }
+}
