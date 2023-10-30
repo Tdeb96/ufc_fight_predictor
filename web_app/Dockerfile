@@ -7,13 +7,13 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY ./web_app /app/web_app
-COPY ./ufc_fight_predictor /app/ufc_fight_predictor
+COPY ./data_processing /app/data_processing
 
 # Install any needed packages specified in requirements_web.txt
 RUN pip install --no-cache-dir -r /app/web_app/requirements_web.txt
 
 # Set python path to be able to use utils module
-ENV PYTHONPATH "${PYTHONPATH}:/app/ufc_fight_predictor"
+ENV PYTHONPATH "${PYTHONPATH}:/app/data_processing"
 
 # Make port 8501 available to the world outside this container
 EXPOSE 8501

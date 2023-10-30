@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
-packages = [{include = "ufc_fight_predictor"}]
+packages = [{include = "data_processing"}]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.11"

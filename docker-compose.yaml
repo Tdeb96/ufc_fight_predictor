@@ -33,7 +33,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     volumes:
       - type: bind
-        source: ./ufc_fight_predictor/backend/config/servers.json
+        source: ./data_processing/backend/config/servers.json
         target: /pgadmin4/servers.json
     ports:
       - "5050:80"
@@ -41,7 +41,7 @@ services:
   add_data:
     build: 
       context: ./
-      dockerfile: ./ufc_fight_predictor/data/Dockerfile
+      dockerfile: ./data_processing/data/Dockerfile
     depends_on:
       timescale:
         condition: service_healthy

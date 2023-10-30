@@ -3,7 +3,7 @@ import json
 import requests
 import streamlit as st
 
-from ufc_fight_predictor import DataProcessor
+from data_processing import DataProcessor
 
 # API URL
 url = "http://api:8000/predict"

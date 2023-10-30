@@ -6,13 +6,13 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY ./api /app/api
-COPY ./ufc_fight_predictor /app/ufc_fight_predictor
+COPY ./data_processing /app/data_processing
 
 # Install any needed packages specified in requirements_api.txt
 RUN pip install --no-cache-dir -r /app/api/requirements_api.txt
 
 # Set python path to be able to use utils module
-ENV PYTHONPATH "${PYTHONPATH}:/app/ufc_fight_predictor"
+ENV PYTHONPATH "${PYTHONPATH}:/app/data_processing"
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000

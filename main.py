@@ -1,5 +1,6 @@
-from ufc_fight_predictor import DataProcessor
 import logging
+
+from data_processing import DataProcessor
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)  # Set the desired logging level

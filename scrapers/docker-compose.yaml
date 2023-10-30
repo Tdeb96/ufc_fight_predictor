@@ -7,9 +7,13 @@ networks:
 
 services:
   bout_scraper:
-    build: ./bout_scraper
+    build: 
+      context: .
+      dockerfile: ./bout_scraper/Dockerfile
   fighter_scraper:
     depends_on:
       bout_scraper:
         condition: service_started
-    build: ./fighter_scraper
+    build: 
+      context: .
+      dockerfile: ./fighter_scraper/Dockerfile

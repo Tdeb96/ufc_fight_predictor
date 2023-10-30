@@ -4,7 +4,7 @@ import pandas as pd
 from fastapi import FastAPI
 from xgboost import XGBClassifier
 
-from ufc_fight_predictor import DataProcessor
+from data_processing import DataProcessor
 
 app = FastAPI()
 data_processor = DataProcessor(username="postgres", password="postgres")

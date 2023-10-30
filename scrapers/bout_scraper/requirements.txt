@@ -1,4 +1,0 @@
-scrapy
-psycopg2-binary
-sqlalchemy==1.4.43
-pandas
