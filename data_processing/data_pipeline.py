@@ -60,7 +60,9 @@ class DataProcessor:
             self.logger.info("Data loaded successfully.")
         return fighters
 
-    def preprocess_training_data(self, bouts: pd.DataFrame, fighters: pd.DataFrame):
+    def preprocess_training_data(
+        self, bouts: pd.DataFrame, fighters: pd.DataFrame
+    ) -> pd.DataFrame:
         self.logger.info("Starting data preprocessing...")
 
         # First convert bouts date to datetime
@@ -73,13 +75,14 @@ class DataProcessor:
         self.logger.info("Filtered fighters who had fights.")
 
         # Extract total wins and losses
-        fighters["total_wins"] = fighters.fighter_record.map(
+        fighters = fighters.copy()
+        fighters.loc[:, "total_wins"] = fighters.fighter_record.map(
             lambda x: x.split("Record: ")[1].split("-")[0]
         )
-        fighters["total_losses"] = fighters.fighter_record.map(
+        fighters.loc[:, "total_losses"] = fighters.fighter_record.map(
             lambda x: x.split("Record: ")[1].split("-")[1]
         )
-        fighters["total_draws"] = fighters.fighter_record.map(
+        fighters.loc[:, "total_draws"] = fighters.fighter_record.map(
             lambda x: x.split("Record: ")[1].split("-")[2].split("(")[0]
         )
         self.logger.info("Extracted total wins, losses, and draws.")
@@ -340,6 +343,7 @@ class DataProcessor:
         self.logger.info(
             "Data preprocessing complete. Model input saved to the database."
         )
+        return bouts
 
     def calculate_differences_on_inference(
         self, fighter1: str, fighter2: str
