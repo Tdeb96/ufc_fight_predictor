@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -5,6 +7,8 @@ from tensorflow.keras.models import load_model
 from xgboost import XGBClassifier
 
 from data_processing import DataProcessor
+
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
 data_processor = DataProcessor(username="postgres", password="postgres")
@@ -30,9 +34,11 @@ def read_root():
 
 @app.get("/predict_xgboost")
 def predict_xgboost(fighter1: str, fighter2: str):
-    difference_df = data_processor.calculate_differences_on_inference(
-        fighter1, fighter2
-    )
+    difference_df = data_processor.calculate_diff_on_inference(fighter1, fighter2)
+    difference_df.drop("event_date", axis=1, inplace=True)
+    difference_df.drop("fighter1", axis=1, inplace=True)
+    difference_df.drop("fighter2", axis=1, inplace=True)
+    logging.info(difference_df.columns)
     prediction = xgboost_clf.predict_proba(difference_df)
     return format_prediction(float(prediction[0][0]), float(prediction[0][1]))
 

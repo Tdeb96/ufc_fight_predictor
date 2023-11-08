@@ -7,3 +7,4 @@ psycopg2-binary
 xgboost
 scikit-learn
 tensorflow==2.14.0
+tqdm
