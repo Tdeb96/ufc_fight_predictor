@@ -1,1 +1,2 @@
-from .data_processing2 import DataProcessor
+from .data_pipeline_doubling_up import DataProcessorDoublingUp
+from .data_pipeline_simple import DataProcessor

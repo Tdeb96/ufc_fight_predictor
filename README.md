@@ -28,3 +28,6 @@ The notebooks can all be run using the poetry environment. Run:
 poetry install && poetry shell
 ```
 To initialize the virtual environment.
+
+## Odds
+The odds requires a .env file in the odds folder with a valid API_KEY for the-odds-api.com
