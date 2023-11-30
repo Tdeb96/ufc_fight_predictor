@@ -11,10 +11,10 @@ COPY ../requirements_scrapers.txt .
 RUN pip install --no-cache-dir -r requirements_scrapers.txt
 
 # Copy the bout_scraper directory into the container
-COPY bout_scraper/ bout_scraper/
+COPY future_bout_scraper/ future_bout_scraper/
 
 # Set the PYTHONPATH to include the bout_scraper directory
 ENV PYTHONPATH="${PYTHONPATH}:/app"
 
 # Command to run the spider
-CMD ["python", "bout_scraper/go-spider.py"]
+CMD ["python", "future_bout_scraper/go-spider.py"]

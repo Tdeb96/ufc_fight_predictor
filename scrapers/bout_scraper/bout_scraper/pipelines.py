@@ -1,3 +1,5 @@
+import logging
+
 from sqlalchemy.orm import sessionmaker
 
 from .models import Bouts, create_bouts_table, db_connect
@@ -11,6 +13,7 @@ class BoutScraperPipeline:
         Initializes database connection and sessionmaker.
         Creates bouts table.
         """
+        logging.info("Initializing BoutScraperPipeline")
         engine = db_connect()
 
         # Create ufc schema
@@ -32,6 +35,7 @@ class BoutScraperPipeline:
         deal = Bouts(**item)
 
         try:
+            logging.info(f"Inserting {deal} into ufc.bouts")
             session.add(deal)
             session.commit()
         except:

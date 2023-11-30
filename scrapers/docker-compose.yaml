@@ -17,3 +17,10 @@ services:
     build: 
       context: .
       dockerfile: ./fighter_scraper/Dockerfile
+  future_bout_scraper:
+    depends_on:
+      bout_scraper:
+        condition: service_started
+    build: 
+      context: .
+      dockerfile: ./future_bout_scraper/Dockerfile

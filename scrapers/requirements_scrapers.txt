@@ -1,7 +1,5 @@
-scrapy
-psycopg2-binary
+scrapy==2.9.0
+psycopg2-binary==2.9.6
 sqlalchemy==1.4.43
-pandas
-unidecode
-lxml
-beautifulsoup4
+pandas==2.0.1
+Twisted==22.10.0
